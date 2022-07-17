@@ -1,0 +1,1007 @@
+﻿===============================================================================================
+Theme Style
+===============================================================================================
+
+/*
+Theme Name: Twenty Fifteen Child
+Theme URI: http://example.com/twenty-fifteen-child/
+Description: Twenty Fifteen Child Theme
+Author: John Doe
+Author URI: http://example.com
+Template: twentyfifteen
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+Text Domain: twenty-fifteen-child
+*/
+===============================================================================================
+
+
+===============================================================================================
+									css link WORK
+===============================================================================================
+
+<?php 
+ function wp_enqueue_style_register(){ 
+  wp_register_style('carousel', get_template_directory_uri().'/css/owl.carousel.css');
+  
+  
+  wp_register_script('bootstrap', get_template_directory_uri().'/js/bootstrap.min.js');
+  wp_register_script('bootstrap', get_template_directory_uri().'/js/bootstrap.min.js', array('jquery')----array eita dile jquery ultapalta dileo no problem);
+  
+  wp_enqueue_style('carousel');
+  
+  
+  wp_enqueue_script('jquery');auto
+  wp_enqueue_script('bootstrap');
+
+
+ }
+ add_action('wp_enqueue_scripts','wp_enqueue_style_register');
+ 
+?>
+
+
+
+
+
+
+===============================================================================================
+									css link Best way WORK
+===============================================================================================
+
+<?php 
+ function wp_enqueue_style_register(){ 
+
+  /*********Link css & js enqueue ********/
+  wp_enqueue_style('bootstrap', get_template_directory_uri().'/css/bootstrap.min.css', array(), NULL);
+  
+  
+  wp_enqueue_script('bootstrap', get_template_directory_uri().'/js/bootstrap.min.js', array('jquery'), NULL);
+
+
+ }
+ add_action('wp_enqueue_scripts','wp_enqueue_style_register');
+ 
+?>
+===============================================================================================
+									BITM WORK
+===============================================================================================
+
+<?php echo get_template_directory_uri(); ?>/
+<?php bloginfo('template_directory_url'); ?>/
+<?php bloginfo('stylesheet_url'); ?>/
+<?php echo esc_url(get_template_directory_uri()); ?>/
+
+
+
+
+
+
+
+===============================================================================================
+									BITM WORK
+===============================================================================================
+
+
+Bitm Notes:
+<?php language_attributes(); ?>
+
+<?php Bloginfo('charset'); ?>
+
+<h2><?php the_title(); ?></h2>
+
+<p><?php the_content(); ?></p>
+
+<?php comments_template(); ?> dile input field er form er comment kew korle dekha jabe replay deya jabe
+
+<p><?php the_author(); ?></p>
+<p><?php the_time(dmy); ?></p>
+<p><?php the_time(y m d); ?></p>
+<p><?php the_time(DYM); ?></p>
+<p><?php the_time(D Y M); ?></p>
+<p><?php the_time(D Y F g a); ?></p>
+
+<a> href="<?php the_permalink(); ?>"</a>
+<a> href="<?php the_comments_popup_link(); ?>"</a>
+<a> href="<?php the_comments_popup_link('comment nai','comment ase 1ta','%comments','class er nam','comment off wp er deshbord a off thakle'); ?>"</a>
+
+
+
+=============search form korar jonno============
+<?php get_search_form(); ?> wp theke search form asbe
+
+manualy code kore ana jay:
+
+<form method="GET" action="<?php esc_url(bloginfo('home')); ?>">
+<input name="almgir" value="search" type="text" />
+</form>
+
+
+
+=============Read More korar jonno============
+
+ function read_more($limitmanekoyta){
+  $post_content = explode("",get_the_content());
+  $less_content = array_slice($post_content, 0, $limitmanekoyta);
+  echo implode("",$less_content);
+}
+  tarpor Homepage a likhte hobe 
+  <p>asdfasdfsd;fsd;flsd;fksf</p> er jaygay
+  <?php read_more(koytadiboseta jemon 20ta or 30ta);?>... <a href="<?php the_permalink(); ?>">Read More</a>
+  
+
+  
+  
+===============================================================================================
+	$ thakle JQuery likhte hobe or na likhte chaile nicher wayte korte hobe.
+===============================================================================================
+<script>
+			$(document).ready(function () {
+			 $('.nav li').click(function(e) {
+
+			$('.nav li').removeClass('active');
+
+			var $this = $(this);
+			if (!$this.hasClass('active')) {
+				$this.addClass('active');
+			}
+			//e.preventDefault();
+		});
+	});
+  </script>
+  
+  
+  <script>
+			jQuery(document).ready(function () {
+			 jQuery('.nav li').click(function(e) {
+
+			jQuery('.nav li').removeClass('active');
+
+			var $this = $(this);
+			if (!$this.hasClass('active')) {
+				$this.addClass('active');
+			}
+			//e.preventDefault();
+		});
+	});
+		</script>
+		
+    -----$ thakatei chaile------
+	<script>
+	 (function($){
+			$(document).ready(function () {
+			 $('.nav li').click(function(e) {
+
+			$('.nav li').removeClass('active');
+
+			var $this = $(this);
+			if (!$this.hasClass('active')) {
+				$this.addClass('active');
+			}
+			//e.preventDefault();
+		});
+	});
+	
+	})(jQuery);
+  </script>
+  
+  
+===============================================================================================
+                                 Slider need code
+===============================================================================================
+ function a giya likhta hobe: 
+ 
+ register_post_type('mychooiceIdjemon_slider', array(
+   'labels' => array(
+     'name' => 'slider',
+	 'add_new_item' => 'Add new slider or other name'
+   ),
+   'public' => true,
+   'supports' => array('title','thumbnail','editor')
+ ));
+ 
+ ------Html er slider item a likhte hobe-----
+   <?php 
+	$ektaveriable = new WP_Query(array(
+	  'post_type' => 'my_slider',
+	  'post_per_page' => 3
+	));
+  ?>
+  <?php $veriable2 = 0; while($ektaveriable->have_posts()) : $ektaveriable->the_post(); $veriable2++ ?>
+  
+  <?php if($veriable2 == 1) : ?>
+   <div class="item active">
+  <?php else : ?>
+   <div class="item">
+  <?php endif; ?>
+	<div class="single_slide_item ">
+	  <?php the_post_thumbnail(); ?>
+	</div>
+  </div>
+  <?php endwhile;?>
+  
+
+  
+===============================================================================================
+                                 Service type post need code
+===============================================================================================
+ function a giya likhta hobe: 
+ 
+ register_post_type('mychooiceId_servive', array(
+   'labels' => array(
+     'name' => 'servic',
+	 'add_new_item' => __('Add new servic or other name','sectionservic')
+   ),
+   'public' => true,
+   'supports' => array('title','editor')
+ ));
+ 
+ ------Html er servic  a likhte hobe-----
+  <?php 
+    $ektaveriable = new WP_Query(array(
+	  'post_type' => 'mychooiceId_servive',
+	  'post_per_page' => 3 or 2ta or na dile choltei thakbe
+	));
+  ?>
+  <?php while($ektaveriable->have_posts()) : $ektaveriable->the_post(); ?>
+    <h2><?php the_title(); ?></h2>
+    <p><?php read_more(20); ?></p>
+    <a href="<?php the_permalink(); ?>">Read More</a>
+  <?php endwhile;?>
+ 
+
+
+
+
+ ===============================================================================================
+     ////row te post korte hole deshbord er post theke post dite chile fontpage code
+===============================================================================================
+
+  <?php 
+    $ektaveriable = new WP_Query(array(
+	  'post_type' => 'post',
+	  'posts_per_page' => 4 or 5ta or 6ta
+	));
+  ?>
+  
+  
+  <?php while($ektaveriable->have_posts()) : $ektaveriable->the_post(); ?>
+    
+	<div class="row">
+	<div class="col-sm-3 col-md-3">
+	  <div class="menu_left">
+		<?php the_post_thumbnail();?
+	  </div>
+	</div>
+
+	<div class="col-xs-9 col-sm-9">
+	  <div class="menu_left">
+		<div class="menu_left_1">
+		   <h2><?php the_title(); ?></h2>
+           <p><?php read_more(20); ?></p>
+           <a href="<?php the_permalink(); ?>">Read More</a>
+		</div>
+	  </div>
+	</div>
+   </div>
+  <?php endwhile;?>
+ 
+
+
+ ===============================================================================================
+                      sidebar dynamic code
+===============================================================================================
+       ----normal----
+  function jekononam(){
+	register_sidebar(array(
+	 'name' => 'left sidebar',
+	 'description' => 'This is sidebar posting area',
+	 'id' => 'left_side',
+	 'before_title' => '<h2>',
+	 'after_title' => '</h2>',
+	 'before_widget' => '',
+	 'after_widget' => ''
+	));
+	
+	register_sidebar(array(
+	 'name' => 'right sidebar',
+	 'description' => 'This is sidebar posting area',
+	 'id' => 'right_side'
+	));
+}
+ add_action('widgets_init', 'jekononam');
+ 
+ -----------html aomn thakle-------
+    <div class="col-sm-4 col-md-4 col-lg-4">
+		<div class="foote_menu_left"> 
+		   <div class="header_h2">
+		     <h2>Visist Us</h2>
+			</div>
+          <div class="content">		
+		    <p>2 Perimeter Park South #510E<br/>Birmingham,AL 35242</p>
+		    <a class="btn_footer" href="#">Get Directions</a>
+		  </div>		
+		</div>
+	</div>
+   
+   emon hobe
+   
+   <div class="col-lg-3">
+     <?php get_sidebar(); ?>
+   </div>
+   sidebar.php baniye tar betore
+   <div class="main_sidebar">
+      <?php dynamic_sidebar('left_side');?> 
+     </div>
+	 
+	 
+	 
+	 
+	 
+ ===============================================================================================
+                      footer dynamic code
+===============================================================================================
+       ----normal----
+  function jekononam(){
+    register_sidebar(array(
+	 'name' => 'right sidebar',
+	 'description' => 'This is sidebar posting area',
+	 'id' => 'right_side'
+	));
+  
+    ----best  way  ----
+	register_sidebar(array(
+	 'name' => __('footer widgets', 'language'),
+	 'description' => 'This is footer widgets posting area',
+	 'id' => 'footer_widgets',
+	 'before_widget' => '<div class="col-sm-4 col-md-4 col-lg-4"><div class="foote_menu_left">',
+	 'after_widget' => '</div></div></div>',
+	 'before_title' => '<h2>',
+	 'after_title' => '</h2><div class="img">',
+	));
+	 
+}
+ add_action('widgets_init', 'jekononam');
+ 
+ -----------html aomn thakle-------
+    <div class="col-sm-4 col-md-4 col-lg-4">
+		<div class="foote_menu_left"> 
+		   <div class="header_h2">
+		     <h2>Visist Us</h2>
+			</div>
+          <div class="content">		
+		    <p>2 Perimeter Park South #510E<br/>Birmingham,AL 35242</p>
+		    <a class="btn_footer" href="#">Get Directions</a>
+		  </div>		
+		</div>
+	</div>
+   
+   emon hobe
+   
+   <div class="col-lg-3">
+     <?php get_sidebar(); ?>
+   </div>
+   sidebar.php baniye tar betore
+   <div class="main_sidebar">
+      <?php dynamic_sidebar('left_side');?> 
+     </div>
+	 
+	 
+	 
+	 
+===============================================================================================
+      dashbord a user create
+===============================================================================================
+	  
+	$jekonovariable = wp_create_user('alamgir','123','alamgir@gmail.com'); 
+	 
+	$amitumi = new WP_User($jekonovariable);
+	$amitumi ->set_rol('admin');
+	
+	abar ebabe kora jay
+	
+	$amitumi = new WP_User(wp_create_user('alamgir','123','alamgir@gmail.com'));
+	$amitumi ->set_rol('admin');
+	
+	
+	
+	
+	
+===============================================================================================
+    ALL links:google CDN source fill
+===============================================================================================
+  wp_enqueue_style( 'bootstrap_css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css' );
+	
+  wp_enqueue_style( 'wpb-fa', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' );	
+  
+ wp_enqueue_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js', false, '1.11.3');
+ 
+
+
+
+ 
+ ===============================================================================================
+    function a giya agula likhte hobe:
+===============================================================================================
+add_theme_support('title-tag'); auto post asbe
+add_theme_support('custom-header');
+add_theme_support('custom-background');  auto post asbe
+add_theme_support('post-thumbnails');
+                       ei function gula diye datnamic post kora jay 1s resister korar por jekhane image ta ante chai sekhane ei code dite hosbe
+
+<?php header_image(); ?>
+<?php the_post_thumbnail(); ?>
+
+
+
+
+
+
+===============================================================================================
+    Html post:
+===============================================================================================
+agei function er modde custom post gula bootstrap theke dite hobe tar por Home page ba index a agula likhte hobe
+
+<?php query_posts(array(
+  'post_type' => 'service_type',
+  'posts_per_page' => 3   eita diye bolte hobe koy ta column show korbe....
+)); ?> tarpor loof chalaite hobe chek korar jonno
+
+<?php 
+ if(have_posts()):while(have_posts()):the_post();
+?>agula bondo korte hobe
+<?php endwhile; endif; ?>
+
+
+
+======================Html post:====================
+
+<?php query_posts(array(
+				  'post_type'=>'menu_left_type',
+				  'posts_per_page'=> 1
+				)); ?>
+			<?php if(have_posts()):while(have_posts()):the_post(); ?>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+					  <div class="menu_left">
+						<div class="menu_left_1">
+						   <h5><?php the_title(); ?></h5>
+						  <p><?php the_content(); ?></p>
+						</div>
+					  </div>
+				</div>
+		   <?php endwhile; endif; ?>
+
+
+===============================================================================================
+    pagination navmenu:
+===============================================================================================
+<?php 
+
+  the_posts_pagination(array(
+    'show_all' => true,
+    'prev_text' => 'Prev',
+    'next_text' => 'Next',
+    'screen_reader_text' => 'pagination navabr',
+    'before_page_number' => '<br/>',
+    'after_page_number' => '<br/>',
+  ));
+
+?>
+
+
+
+
+
+
+
+
+===============================================================================================
+    Css navmenu:
+===============================================================================================
+<?php
+
+ $defaults = array(
+    'theme_location'  => ,
+    'menu'            => ,
+    'container'       => 'div',
+    'container_class' => 'menu-{menu slug}-container',
+    'container_id'    => ,
+    'menu_class'      => 'menu',
+    'menu_id'         => ,
+    'echo'            => true,
+    'fallback_cb'     => 'wp_page_menu',
+    'before'          => ,
+    'after'           => ,
+    'link_before'     => ,
+    'link_after'      => ,
+    'items_wrap'      => '<ul id=\"%1$s\" class=\"%2$s\">%3$s</ul>',
+    'depth'           => 0,
+    'walker'          =>
+);
+?>
+ 
+<?php wp_nav_menu( $defaults ); ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+============= menu ==========
+function a giye resister korte hobe:........
+register_nav_menus(
+    array(
+      'theme_location'=>'this is primary menu',
+      'footer' =>'this is footer menu',
+     )
+   );
+
+<?php
+    wp_nav_menu(array(
+	  'menu_class'=>"nav navbar-nav navbar-right",
+	  'container'=>false,
+	  'theme_location'=>'primary',
+	));
+   
+ ?>
+ 
+ 
+ ===============================================================================================
+    font-awesome icon link:
+===============================================================================================
+<?php 
+function meta_boxes(){
+	
+	add_meta_box(  
+	  'icon_meta',//ID
+	  'My Icon Meta box',//Title
+	  'icon_meta_callback',//Callback
+	  'servic_type',//Screen
+	  'normal',//context
+	  'low'//prio
+	);
+	
+}
+add_action('add_meta_boxes','meta_boxes');
+
+ function icon_meta_callback($post){
+	 wp_nonce_field('icon_meta','icon_meta_nonce');
+	 $icon = get_post_meta($post->ID,'ms_icon',true);
+	 ?>
+	 <label for="">Icon</label>
+	 <input type="text" name="ms_icon" value="<?php echo $icon ?>" class="widefat" />
+	 
+	<?php 
+ }
+
+  function save_icon_meta($post_id){
+	 //check if our nonce is set. 
+	  if( ! isset( $_POST['icon_meta_nonce'])){
+		  return;
+	  } 
+	  //Verify that the nonce is valid. 
+	  if( ! wp_verify_nonce($_POST['icon_meta_nonce'],'icon_meta')){
+		  return;
+	  }
+	  
+	  //Make sure that it is set. 
+	  if( ! isset( $_POST['ms_icon'])){
+		  return;
+	  }
+	  //Sanitize user input sure. 
+	  $my_icon = sanitize_text_field( $_POST['ms_icon']);
+	  
+	  //Update the meta field in the database. 
+	  update_post_meta( $post_id, 'ms_icon',$my_icon);
+	  
+  }
+ add_action('save_post','save_icon_meta');
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+===============================================================================================
+    img header and logo:
+===============================================================================================
+        add_theme_support('custom-header');eita diye header k suppoty kora hoy function er ditor code dite hobe...............
+
+  <img src="<?php header_image(); ?>" alt="" /> index a eita likhte hobe.............
+  
+  
+          //for custom header//height width fixed korajay
+		  
+ add_theme_support( 'custom-background' );eita diye function a call korte hoy.
+
+		$defaults = array(
+			'default-image' => '',
+			'default-preset' => 'default',
+			'default-position-x' => 'left',
+			'default-position-y' => 'top',
+			'default-size' => 'auto',
+			'default-repeat' => 'repeat',
+			'default-attachment' => 'scroll',
+			'default-color' => '',
+			'wp-head-callback' => '_custom_background_cb',
+			'admin-head-callback' => '',
+			'admin-preview-callback' => '',
+		);
+   add_theme_support( 'custom-background', $defaults );
+
+                    
+                //for logo//height width fixed korajay
+				
+ add_theme_support( 'custom-logo' ); height width k fixed kore dewya jay...............     
+  add_theme_support( 'custom-logo', array(
+    'height'      => 100,
+    'width'       => 400,
+    'flex-height' => true,
+    'flex-width'  => true,
+    'header-text' => array( 'site-title', 'site-description' ),
+) );
+
+
+
+
+
+
+
+
+===============================================================================================
+ nicher example ta dilei hobe eta jamela bt boja sohoj   custom function korar  link: ami je je section id er jonno jekono function korte pari....
+===============================================================================================
+
+<?php 
+
+ function services(){
+	 $args=array(
+	   'public' => true,
+	   'label' => 'Service type',
+	   'menu_position' => 5, 
+     );
+	   post er nicher jonno 5 dashbord er menu position
+	                      post er nicher jonno 5
+	                      Media er nicher jonno 10
+	                      link er nicher jonno 15
+	                      Pages er nicher jonno 20
+	                      comments er nicher jonno 25 aro ase
+	 
+	register_post_type('Service','$args');
+	 
+ }
+add_action('init','services');
+
+?>
+
+
+
+
+
+
+
+
+===============================================================================================
+   post type k genarate kora jay....default babe agula deya thake
+===============================================================================================
+
+Main function onno arek ta function nile  theke link korte hobe evabe: 
+   require_once '/requirs/custom-post.php';
+
+post hobe jekhono section a er nam likhe dile oi typer
+// Register Custom Post Type ami servic type korci: 
+function custom_servic_type() {
+
+	$labels = array(
+		'name'                  => _x( 'servic Types', 'servic Type General Name', 'text_domain' ),
+		'singular_name'         => _x( 'servic Type', 'servic Type Singular Name', 'text_domain' ),
+		'menu_name'             => __( 'servic Types', 'text_domain' ),
+		'name_admin_bar'        => __( 'servic Type', 'text_domain' ),
+		'archives'              => __( 'Item Archives', 'text_domain' ),
+		'attributes'            => __( 'Item Attributes', 'text_domain' ),
+		'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
+		'all_items'             => __( 'All Items', 'text_domain' ),
+		'add_new_item'          => __( 'Add New Item', 'text_domain' ),
+		'add_new'               => __( 'Add New', 'text_domain' ),
+		'new_item'              => __( 'New Item', 'text_domain' ),
+		'edit_item'             => __( 'Edit Item', 'text_domain' ),
+		'update_item'           => __( 'Update Item', 'text_domain' ),
+		'view_item'             => __( 'View Item', 'text_domain' ),
+		'view_items'            => __( 'View Items', 'text_domain' ),
+		'search_items'          => __( 'Search Item', 'text_domain' ),
+		'not_found'             => __( 'Not found', 'text_domain' ),
+		'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
+		'featured_image'        => __( 'Featured Image', 'text_domain' ),
+		'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
+		'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
+		'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+		'insert_into_item'      => __( 'Insert into item', 'text_domain' ),
+		'uploaded_to_this_item' => __( 'Uploaded to this item', 'text_domain' ),
+		'items_list'            => __( 'Items list', 'text_domain' ),
+		'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+		'filter_items_list'     => __( 'Filter items list', 'text_domain' ),
+	);
+	$args = array(
+		'label'                 => __( 'servic Type', 'text_domain' ),
+		'description'           => __( 'servic Type Description', 'text_domain' ),
+		'labels'                => $labels,
+		'supports'              => array( 'title','editor','author','thumbnail','excerpt','comments' ),
+		'taxonomies'            => array( 'category', 'post_tag' ),
+		'hierarchical'          => false,
+		'public'                => true,
+		'show_ui'               => true,
+		'show_in_menu'          => true,
+		'menu_position'         => 5,
+		'show_in_admin_bar'     => true,
+		'show_in_nav_menus'     => true,
+		'can_export'            => true,
+		'has_archive'           => true,		
+		'exclude_from_search'   => false,
+		'publicly_queryable'    => true,
+		'capability_type'       => 'page',
+	);
+	register_post_type( 'servic_type', $args );
+
+}
+add_action( 'init', 'custom_servic_type', 0 );
+
+
+
+
+
+
+
+===============================================================================================
+									BITM WORK  End
+===============================================================================================
+
+
+
+
+
+
+
+
+===============================================================================================
+									Webtady  ADIB sir
+===============================================================================================
+
+
+===============================================================================================
+Title Tag:
+===============================================================================================
+<title><?php bloginfo('name'); ?>|<?php bloginfo('description'); ?></title>
+<title><?php bloginfo('name'); ?><?php wp_title(); ?></title>
+<title> <?php wp_title('', true,''); ?> </title>
+===============================================================================================
+
+
+
+===============================================================================================
+Import CSS:
+===============================================================================================
+<link href="<?php bloginfo('template_directory'); ?>/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="all" href="<?php bloginfo( 'stylesheet_url' ); ?>" />
+===============================================================================================
+
+
+
+
+===============================================================================================
+Import JQuery:
+===============================================================================================
+<script src="<?php bloginfo('template_url'); ?>/js/bootstrap.min.js"></script>
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+Image path:
+===============================================================================================
+<img src="<?php bloginfo('template_url') ?>/images/slides.jpg">﻿
+===============================================================================================
+
+
+
+
+===============================================================================================
+Header:
+===============================================================================================
+<?php include (TEMPLATEPATH."/header.php');?>)
+<?php get_header(); ?>
+<?php wp_head(); ?>
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+Footer:
+===============================================================================================
+<?php include (TEMPLATEPATH."/footer.php');?>)
+
+<?php get_footer(); ?>
+
+ <?php wp_footer(); ?> 
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+Template Content:
+===============================================================================================
+<?php 
+/*
+Template Name: contact us
+*/
+
+?>
+<?php get_header(); ?>
+
+
+<?php while ( have_posts() ): the_post(); ?>
+		
+
+					<?php the_content(); ?>
+
+			<?php if ( ot_get_option('page-comments') == 'on' ) { comments_template('/comments.php',true); } ?>
+			
+		<?php endwhile; ?>
+		
+<?php get_footer(); ?>
+
+===============================================================================================
+
+
+
+================================================================================================
+Get Slider => Slider name: ltc/slider.php
+================================================================================================
+
+<?php get_template_part('ltc/slider'); ?>
+
+================================================================================================
+
+
+
+===============================================================================================
+Menu Register
+===============================================================================================
+
+function register_my_menus() {
+  register_nav_menus(
+    array(
+      'header-menu' => __( 'Header Menu' ),
+      'extra-menu' => __( 'Extra Menu' )
+     )
+   );
+ }
+ add_action( 'init', 'register_my_menus' );
+
+================================================================================================
+
+ <?php
+     wp_nav_menu( array(
+    'menu'           => 'Primary Menu', // Do not fall back to first non-empty menu.
+    'theme_location' => '__no_such_location',
+ 'menu_class' => 'nav navbar-nav',
+ 'menu_id' => 'menu',
+ 'container' => 'ul',
+ 'container_class' => 'collapse navbar-collapse'
+   
+) );
+   
+   
+
+
+
+
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+Contact form 7
+===============================================================================================
+<?php echo do_shortcode( '[contact-form-7 id="1234" title="Contact form 1"]' ); ?>
+===============================================================================================
+
+
+[jssor-slider alias="simple-layer-animation.slider"]
+
+
+===============================================================================================
+n-th folder
+===============================================================================================
+
+<link href="<?php echo get_template_directory_uri(); ?>/landt/csso/stylec619.css?v=1.0" rel="stylesheet" />
+
+===============================================================================================
+
+
+
+
+
+
+===============================================================================================
+Redirect a page
+===============================================================================================
+
+
+<?php /*  
+Template Name: Page Redirect
+*/ 
+
+header('Location: http://www.nameofnewsite.com');
+exit();
+
+?>
+
+===============================================================================================
+
+
+
+===============================================================================================
+Display single product image
+===============================================================================================
+.woocommerce div.product div.images.woocommerce-product-gallery{
+opacity:1 !important;
+}
+
+figure {
+display: block;
+margin-top: 0em;
+margin-bottom: 0em;
+margin-left: 0px;
+margin-right: 0px;
+}
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+---------------
+===============================================================================================
+-------------------
+===============================================================================================
+
+
+
+
+
+===============================================================================================
+Change return shop to custom shop page
+===============================================================================================
+
+/**
+ * Changes the redirect URL for the Return To Shop button in the cart.
+ *
+ * @return string
+ */
+function wc_empty_cart_redirect_url() {
+  return 'https://www.techshelpme.com/shop/';
+}
+add_filter( 'woocommerce_return_to_shop_redirect', 'wc_empty_cart_redirect_url' );
+===============================================================================================
